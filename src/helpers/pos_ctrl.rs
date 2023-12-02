@@ -122,9 +122,9 @@ struct DollyPosCtrlInputBundle {
 impl Display for DollyPosCtrlInputBundle {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let input_map = &self.input_manager.input_map;
-        for (v, ma) in input_map.iter() {
-            let _ = write!(f, "Action: {ma:?} -> ");
-            for (i, b) in v.iter().enumerate() {
+        for (move_action, user_input) in input_map.iter() {
+            let _ = write!(f, "Action: {move_action:?} -> ");
+            for (i, b) in user_input.iter().enumerate() {
                 let str = match b {
                     UserInput::Single(x) => {
                         format!("Press {}", &x)
@@ -142,11 +142,11 @@ impl Display for DollyPosCtrlInputBundle {
                 };
 
                 let _ = write!(f, "{str}");
-                if v.len() > 1 && i != v.len() - 1 {
+                if user_input.len() > 1 && i != user_input.len() - 1 {
                     let _ = write!(f, " or ");
                 }
 
-                if i == v.len() - 1 {
+                if i == user_input.len() - 1 {
                     let _ = writeln!(f);
                 }
             }
